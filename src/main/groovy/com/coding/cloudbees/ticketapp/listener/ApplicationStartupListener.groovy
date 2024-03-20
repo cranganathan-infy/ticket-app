@@ -13,10 +13,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 
-import javax.persistence.EntityManager
-import javax.persistence.EntityManagerFactory
-import javax.persistence.Persistence
-
 @Slf4j
 @Component
 class ApplicationStartupListener implements ApplicationListener<ApplicationReadyEvent> {
@@ -35,11 +31,11 @@ class ApplicationStartupListener implements ApplicationListener<ApplicationReady
         log.info(KeyValueLogger.log('Application ready event received by ticket-app', [hello: 'world', environment: System.getProperty('environment')]))
         //creating a train
         Train tempTrain = new Train(trainNumber: 1111, trainName: 'One express', origin: 'London', destination: 'Paris')
-        Train savedTrain = trainRepository.save(tempTrain)
+        trainRepository.save(tempTrain)
 
         //creating a train sections
         List<TrainSection> tempSections = [new TrainSection(sectionName: 'A', train: tempTrain), new TrainSection(sectionName: 'B', train: tempTrain)]
-        trainSectionRepository.saveAll( tempSections )
+        trainSectionRepository.saveAll(tempSections)
 
         tempSections.each { trainSection ->
             (1..10).each { seatNumber ->

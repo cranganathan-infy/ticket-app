@@ -12,8 +12,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @Configuration
 class SwaggerConfig {
     @Bean
-    Docket api(){
-      return new Docket(DocumentationType.SWAGGER_2)
+    Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .apis(RequestHandlerSelectors.basePackage("com.coding.cloudbees.ticketapp.controller"))

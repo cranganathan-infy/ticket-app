@@ -8,7 +8,7 @@ import groovy.transform.Canonical
 
 import javax.persistence.Column
 import javax.persistence.GenerationType
-import javax.persistence.Id;
+import javax.persistence.Id
 
 import javax.persistence.CascadeType
 import javax.persistence.Entity
@@ -39,7 +39,7 @@ class Ticket {
     @JsonProperty('to')
     String toLoc
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     User user
 

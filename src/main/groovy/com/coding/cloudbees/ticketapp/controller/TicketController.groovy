@@ -6,7 +6,6 @@ import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.lang.NonNull
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -30,32 +29,32 @@ class TicketController {
     TicketService ticketService
 
     @GetMapping("{ticketId}")
-    ResponseEntity fetchTicketById(@PathVariable @Positive Long ticketId){
+    ResponseEntity fetchTicketById(@PathVariable @Positive Long ticketId) {
         new ResponseEntity<Ticket>(ticketService.fetchTicketInfo(ticketId), HttpStatus.OK)
     }
 
     @GetMapping("/user/{email}")
-    ResponseEntity fetchTicketByUserId(@PathVariable @Email @NotEmpty String email){
+    ResponseEntity fetchTicketByUserId(@PathVariable @Email @NotEmpty String email) {
         new ResponseEntity<Ticket>(ticketService.fetchTicketByUserEmail(email), HttpStatus.OK)
     }
 
     @PostMapping
-    ResponseEntity allocateSeat(@RequestBody Ticket ticket){
+    ResponseEntity allocateSeat(@RequestBody Ticket ticket) {
         new ResponseEntity<Ticket>(ticketService.allocateSeat(ticket), HttpStatus.CREATED)
     }
 
-    @GetMapping ('/seats/{trainNumber}')
-   ResponseEntity fetchUsersBySection(@PathVariable @NotEmpty String trainNumber,@RequestParam String section){
-        new ResponseEntity(ticketService.fetchUsersBySection(trainNumber,section),HttpStatus.OK)
+    @GetMapping('/seats/{trainNumber}')
+    ResponseEntity fetchUsersBySection(@PathVariable @NotEmpty String trainNumber, @RequestParam String section) {
+        new ResponseEntity(ticketService.fetchUsersBySection(trainNumber, section), HttpStatus.OK)
     }
 
     @PutMapping
-    ResponseEntitymodifySeat(@RequestBody Ticket ticket){
-        new ResponseEntity<Ticket>(ticketService.modifySeat(ticket),HttpStatus.OK)
+    ResponseEntity modifySeat(@RequestBody Ticket ticket) {
+        new ResponseEntity<Ticket>(ticketService.modifySeat(ticket), HttpStatus.OK)
     }
 
     @DeleteMapping
-    ResponseEntity cancelTicket(@RequestBody Ticket ticket){
+    ResponseEntity cancelTicket(@RequestBody Ticket ticket) {
         ticketService.cancelReservation(ticket.id)
     }
 }

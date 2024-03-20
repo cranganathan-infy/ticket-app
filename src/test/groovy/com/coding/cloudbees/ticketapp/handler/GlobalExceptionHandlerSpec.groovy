@@ -1,9 +1,8 @@
 package com.coding.cloudbees.ticketapp.handler
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
-
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.ResponseEntity
 import org.springframework.mock.web.MockHttpServletRequest
@@ -14,7 +13,6 @@ import spock.lang.Specification
 import spock.lang.Subject
 
 import javax.servlet.http.HttpServletRequest
-
 
 class GlobalExceptionHandlerSpec extends Specification {
 

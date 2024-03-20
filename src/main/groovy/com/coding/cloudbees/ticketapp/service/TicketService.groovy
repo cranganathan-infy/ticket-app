@@ -13,7 +13,6 @@ import com.coding.cloudbees.ticketapp.repository.TrainSectionRepository
 import com.coding.cloudbees.ticketapp.repository.UserRepository
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.dao.DataAccessException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 
@@ -44,19 +43,23 @@ class TicketService {
         if (!dbUser) {
             throw new EmptyResultDataAccessException("No user found with them email ${email}", 1)
         }
-        ticketRepository.findByUserId(dbUser.id).get()
+        Ticket dbTicket = ticketRepository.findByUserId(dbUser.id)
+        if (!dbTicket) {
+            throw new EmptyResultDataAccessException("No ticket found with email ${email}", 1)
+        }
+        dbTicket
     }
 
     List fetchUsersBySection(String trainNumber, String section) {
         Train dbTrain = trainRepository.findTrainByTrainNumber(trainNumber)
         if (!dbTrain) {
-            throw new EmptyResultDataAccessException("No train found with  ${trainNumber}", 1)
+            return []
         }
         List<Ticket> lstTicket = ticketRepository.findAllByTrainId(dbTrain.id)
         TrainSection dbSection = trainSectionRepository.findByTrainIdAndSectionName(dbTrain.id, section)
         List bookedSeats = []
-        dbSection.seats.each { seat ->
-            lstTicket.find() { tmpTicket ->
+        dbSection?.seats.each { seat ->
+            lstTicket.find { tmpTicket ->
                 if (tmpTicket.train.id == dbSection.train.id && seat.isReserved) {
                     bookedSeats << [reserved: seat.isReserved, seat: seat.seatNumber, email: tmpTicket.user.email, name: tmpTicket.user.firstName + tmpTicket.user.lastName]
                 }
@@ -73,7 +76,7 @@ class TicketService {
         if (trains.isEmpty()) {
             throw new EmptyResultDataAccessException("No train found between ${newTicket.fromLoc} and ${newTicket.toLoc}", 1)
         }
-        Train retrievedTrain = trains?.getFirst()
+        Train retrievedTrain = trains?.first
 
         Seat availableSeat = getAvailableSeatForTrain(retrievedTrain)
         if (!availableSeat) {
@@ -96,18 +99,22 @@ class TicketService {
 
     Ticket modifySeat(Ticket ticket) {
         //TODO-update seat
+        log.info('modify request to be implemented', [ticketId: ticket.id])
+        ticket
     }
 
-    Ticket cancelReservation(Ticket ticket) {
-        ticketRepository.deleteByUserId(userId)
+    void cancelReservation(Ticket ticket) {
+        // TODO
+        //ticketRepository.cancelReservation(userId)
+        log.info('cancel reservation request to be implemented', [ticketId: ticket.id])
     }
 
     Seat getAvailableSeatForTrain(Train train) {
         Seat seat = new Seat()
         List<TrainSection> trainSections = train.sections
         if (trainSections) {
-            List<Seat> availableSeat = trainSections.seats.findAll { it.isReserved }.getFirst()
-            seat = availableSeat?.getFirst()
+            List<Seat> availableSeat = trainSections.seats.findAll { it.isReserved }.first
+            seat = availableSeat?.first
         }
         return seat
     }

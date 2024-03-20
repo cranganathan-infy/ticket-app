@@ -2,7 +2,6 @@ package com.coding.cloudbees.ticketapp.config
 
 import spock.lang.Specification
 
-
 class SwaggerConfigSpec extends Specification {
     SwaggerConfig sut = new SwaggerConfig()
 
