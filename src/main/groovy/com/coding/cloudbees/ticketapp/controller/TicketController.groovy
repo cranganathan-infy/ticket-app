@@ -53,8 +53,8 @@ class TicketController {
         new ResponseEntity<Ticket>(ticketService.modifySeat(ticket), HttpStatus.OK)
     }
 
-    @DeleteMapping
-    ResponseEntity cancelTicket(@RequestBody Ticket ticket) {
-        ticketService.cancelReservation(ticket.id)
+    @DeleteMapping("{ticketId}")
+    ResponseEntity cancelTicket(@PathVariable @Positive Long ticketId) {
+        new ResponseEntity(ticketService.cancelReservationByTicketId(ticketId), HttpStatus.NO_CONTENT)
     }
 }

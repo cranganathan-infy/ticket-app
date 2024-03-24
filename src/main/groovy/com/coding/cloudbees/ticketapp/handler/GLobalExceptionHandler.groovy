@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.context.request.WebRequest
-
 import javax.servlet.http.HttpServletRequest
 
 @Slf4j
@@ -18,6 +17,9 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler([HttpClientErrorException, EmptyResultDataAccessException])
     ResponseEntity<Object> handle404(Exception ex, WebRequest webRequest) {
+        if (ex instanceof HttpClientErrorException.UnprocessableEntity) {
+            return handleExceptionInternal(ex, webRequest, HttpStatus.NOT_FOUND)
+        }
         return handleExceptionInternal(ex, webRequest, HttpStatus.NOT_FOUND)
     }
 

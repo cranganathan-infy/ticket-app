@@ -1,6 +1,7 @@
 package com.coding.cloudbees.ticketapp.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.Canonical
 
@@ -15,6 +16,7 @@ import javax.persistence.Table
 @Entity
 @Canonical
 @Table(name = "trains")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Train {
     @Id

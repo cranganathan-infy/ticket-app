@@ -63,7 +63,7 @@ class TicketServiceIntegrationSpec extends TicketAppApplicationIntegrationSpec {
 
     def 'fetchUsersBySection'() {
         setup:
-        Seat tmpSeat = new Seat(isReserved: true, seatNumber: 1)
+        Seat tmpSeat = new Seat(reserved: true, seatNumber: 1)
         TrainSection tmpSection = new TrainSection(sectionName: 'A', seats: [tmpSeat])
         Train tmpTrain = new Train(trainName: 'TExpress', trainNumber: '111', origin: 'start', destination: 'stop', sections: [tmpSection])
         sut.trainSectionRepository.save(tmpTrain)
